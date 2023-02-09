@@ -16,7 +16,7 @@ let state = {
             header: "I can read your mind.",
             next: "",
             subhead: "",
-            go: "Go",
+            go: "GO",
         },
         {
             header: "Pick a number from 01 - 99",
@@ -72,12 +72,15 @@ function setPage(page) {
     h3.innerHTML = state.pages[page].subhead;
     go.innerHTML = state.pages[page].go;
     state.page = page;
+    location.hash = page;
     if (next.innerHTML == "") {
         next.style.display = "none";
     }
     else {
         next.style.display = ""
     }
+    (page == 0 ? go.innerHTML = "GO" : go.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"></path><path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"></path></svg>')
+    localStorage.setItem("page", state.page)
 }
 
 //button event listeners for next page and restart
@@ -86,7 +89,7 @@ next.addEventListener("click", () => {
 })
 
 go.addEventListener("click", () => {
-    if (go.innerHTML == "Go") {
+    if (go.innerHTML == "GO") {
         setPage(1);
     }
     else {
@@ -95,5 +98,11 @@ go.addEventListener("click", () => {
 
 })
 
-//when the page is loaded ,start with first page view
-setPage(0);
+//on hash change update page
+window.onhashchange = ()=> {
+    setPage(Number(location.hash.replace("#","")))
+}
+
+//when the page is loaded ,start with whichever page localStorage has stored
+setPage(Number(localStorage.getItem("page")));
+
