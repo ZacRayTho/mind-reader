@@ -3,21 +3,21 @@
 body {
     text-align: center;
     background-color: rgb(85, 85, 85);
-
 }
 
 h1 {
     overflow-y: scroll;
-    
 }
+
+/* animation class */
 .slide {
     animation-name: nextView;
     animation-duration: 2s;
 }
-/* The dopest animation */
+/* The Best animation */
 @keyframes nextView {
     0% {
-        transform: translateY(0px) rotateX(0deg); 
+        transform: translateX(0px) rotateX(0deg); 
     }
     15% {
         transform: translateX(-500px) rotateX(0deg); 
@@ -29,6 +29,6 @@ h1 {
         transform: translateX(500px) rotateX(90deg);
     }
     100% {
-        transform: translateY(0px);
+        transform: translateX(0px);
     }
 }

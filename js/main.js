@@ -58,7 +58,6 @@ function loadSymbols(arr) {
     for (let i = 0; i < 100; i++) {
         x.push(symbols[i % 9])
     }
-    //OLD **for every element in array switch case checks which symbol it is and then adds the correct number and dash before it**
     //NEW for every element in array,change that element to the current iterator number + dash + the current value of the array
     for (let i = 0; i < 100; i++) {
         x[i] = i + " - " + x[i] + "<br>"
@@ -86,18 +85,18 @@ function setPage(page) {
 //button event listeners for next page and restart
 next.addEventListener("click", () => {
     animate();
+    // Set timeout so the text doesn't change before the animation starts
     setTimeout(setPage, 1000, state["page"] + 1);
 })
 
+//functions for GO button
 go.addEventListener("click", () => {
     if (go.innerHTML == "GO") {
         animate();
-        setTimeout(setPage, 100, 1)
-        
+        setTimeout(setPage, 100, 1)    
     }
     else {
         animate();
-        
         setTimeout(setPage, 100, 0)
     }
 
@@ -108,6 +107,8 @@ window.onhashchange = () => {
     setPage(Number(location.hash.replace("#", "")))
 }
 
+//DOM REFLOW -- an operation that computes layout of document,and during computing updates elements and reinitialize them---CAN REQUIRE A LOT OF CPU POWER AND BLOCKS USER OPERATION SO MINIMIZE USE
+//remove slide class, than trigger a DOM reflow^^^, then add the slide class which automatically starts the animation for that class 
 function animate() {
     h1.classList.remove("slide");
     h1.offsetWidth;
