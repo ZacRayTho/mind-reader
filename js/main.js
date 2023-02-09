@@ -4,12 +4,12 @@ let h3 = document.querySelector("h3");
 let next = document.getElementById("next");
 let go = document.getElementById("go");
 
+// symbols array--HAD TO MOVE BECAUSE COULDN'T ACCESS IN STATE BEFORE STATE WAS INIT
+let symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "("]
 //state of the page
 let state = {
     // what page is currently viewed
     page: 0,
-    // symbols array
-    symbols: ["!", "@", "#", "$", "%", "^", "&", "*", "("],
     // array of page objects with content for every view
     pages: [
         {
@@ -27,7 +27,7 @@ let state = {
         {
             header: "Add both digits together to get a new number",
             next: "NEXT",
-            subhead: "Ex: 14 is 1 + 4 = 5 <br> click next to proceed" ,
+            subhead: "Ex: 14 is 1 + 4 = 5 <br> click next to proceed",
             go: "restart icon",
         },
         {
@@ -37,7 +37,8 @@ let state = {
             go: "restart icon",
         },
         {
-            header: "0 - ! <br> 1 - @ <br> 2 - $ <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... <br> ... ",
+            //CAN'T USE STATE.SYMBOLS WITHIN STATE BECAUSE ITS NOT INIT YET
+            header: loadSymbols(symbols),
             next: "REVEAL",
             subhead: "Find your new number. <br> Note the symbol beside the number",
             go: "restart icon",
@@ -49,21 +50,20 @@ let state = {
             go: "restart icon",
         },
     ]
-
-
-
 }
 
 function loadSymbols(arr) {
+    //get a symbol for 00-99
     let x = []
-    for (item in arr) {
-        //for every element in array switch case checks which symbol it is and then adds the correct number and dash before it
-        x.map((element)=>{
-            switch (element) {
-            case "!": console.log("0 - " + element);
-              break;
-          }})
+    for (let i = 0; i < 100; i++) {
+        x.push(symbols[i % 9])
     }
+    //OLD **for every element in array switch case checks which symbol it is and then adds the correct number and dash before it**
+    //NEW for every element in array,change that element to the current iterator number + dash + the current value of the array
+    for (let i = 0; i < 100; i++) {
+        x[i] = i + " - " + x[i] + "<br>"
+    }
+    return x.toLocaleString().replaceAll(",", "");
 }
 //function to get all content from state oject and update page in state
 function setPage(page) {
@@ -71,8 +71,8 @@ function setPage(page) {
     next.innerHTML = state.pages[page].next;
     h3.innerHTML = state.pages[page].subhead;
     go.innerHTML = state.pages[page].go;
-    state.page = page; 
-    if (next.innerHTML == ""){
+    state.page = page;
+    if (next.innerHTML == "") {
         next.style.display = "none";
     }
     else {
@@ -81,18 +81,18 @@ function setPage(page) {
 }
 
 //button event listeners for next page and restart
-next.addEventListener("click", ()=> {
+next.addEventListener("click", () => {
     setPage(state["page"] + 1)
 })
 
-go.addEventListener("click", ()=> {
+go.addEventListener("click", () => {
     if (go.innerHTML == "Go") {
         setPage(1);
     }
     else {
         setPage(0);
     }
-    
+
 })
 
 //when the page is loaded ,start with first page view
