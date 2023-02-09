@@ -85,22 +85,33 @@ function setPage(page) {
 
 //button event listeners for next page and restart
 next.addEventListener("click", () => {
-    setPage(state["page"] + 1)
+    animate();
+    setTimeout(setPage, 1000, state["page"] + 1);
 })
 
 go.addEventListener("click", () => {
     if (go.innerHTML == "GO") {
-        setPage(1);
+        animate();
+        setTimeout(setPage, 100, 1)
+        
     }
     else {
-        setPage(0);
+        animate();
+        
+        setTimeout(setPage, 100, 0)
     }
 
 })
 
 //on hash change update page
-window.onhashchange = ()=> {
-    setPage(Number(location.hash.replace("#","")))
+window.onhashchange = () => {
+    setPage(Number(location.hash.replace("#", "")))
+}
+
+function animate() {
+    h1.classList.remove("slide");
+    h1.offsetWidth;
+    h1.classList.add("slide");
 }
 
 //when the page is loaded ,start with whichever page localStorage has stored
